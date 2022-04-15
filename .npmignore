@@ -1,0 +1,6 @@
+.idea/
+.vscode/
+dev/
+src/
+yarn-error.log
+depl.sh

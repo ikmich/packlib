@@ -1,4 +1,9 @@
 import { conprint } from 'cliyargs/lib/utils';
+import * as FS from 'fs-extra';
+
+export function _fn(fn: () => any) {
+  return fn();
+}
 
 export interface TaskUnit<T> {
   desc?: string;
@@ -19,4 +24,24 @@ export function taskUnit<T>(task: TaskUnit<T>) {
     conprint.info(`${desc}`);
   }
   return fn();
+}
+
+/*====================================================================================================================*/
+
+type TAddToGitignore = {
+  entry: string;
+  regex?: RegExp;
+  gitignoreFile: string;
+};
+
+export function addToGitIgnore(params: TAddToGitignore) {
+  const { regex, gitignoreFile, entry } = params;
+  FS.ensureFileSync(gitignoreFile);
+
+  const entryRegex = regex ?? new RegExp(`^(\n)?${entry}\\s*$`, 'm');
+
+  const destGitignoreContents = FS.readFileSync(gitignoreFile, { encoding: 'utf-8' })
+    .replace(entryRegex, '')
+    .concat(`\n${entry}`);
+  FS.writeFileSync(gitignoreFile, destGitignoreContents, { encoding: 'utf-8' });
 }

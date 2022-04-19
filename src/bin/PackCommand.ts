@@ -2,7 +2,7 @@ import { ClyBaseCommand } from 'cliyargs';
 import Path from 'path';
 import FS from 'fs-extra';
 import { runShellCmd } from './index';
-import { taskUnit } from '../util';
+import { _fn, addToGitIgnore } from '../util';
 import { conprint } from 'cliyargs/lib/utils';
 import npmPackList from 'npm-packlist';
 
@@ -55,6 +55,15 @@ export class PackCommand extends ClyBaseCommand<any> {
       FS.copyFileSync(sourceFile, destFile, FS.constants.COPYFILE_FICLONE);
     }
     // </step>
+
+    addToGitIgnore({
+      entry: parcelName,
+      gitignoreFile: _fn(() => {
+        const sourceGitignoreFile = Path.join(process.cwd(), '.gitignore');
+        FS.ensureFileSync(sourceGitignoreFile);
+        return sourceGitignoreFile;
+      })
+    });
 
     return {
       pkgName: packageName,

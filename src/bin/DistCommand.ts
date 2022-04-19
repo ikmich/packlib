@@ -67,9 +67,9 @@ export class DistCommand extends ClyBaseCommand<any> {
         fn() {
           const destPackageJsonFile = Path.join(dest, 'package.json');
           if (destPackageJsonFile) {
-            // make a copy of the dest package.json file
-            const copyToFile = Path.join(dest, 'copy-package.json');
-            FS.copyFileSync(destPackageJsonFile, copyToFile, FS.constants.COPYFILE_FICLONE);
+            // // make a copy of the dest package.json file
+            // const copyToFile = Path.join(dest, 'copy-package.json');
+            // FS.copyFileSync(destPackageJsonFile, copyToFile, FS.constants.COPYFILE_FICLONE);
 
             const destPkgJsob = require(destPackageJsonFile);
             if (!destPkgJsob.dependencies) {

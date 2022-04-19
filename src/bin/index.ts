@@ -1,51 +1,55 @@
 #!/usr/bin/env node
 
-import { cliyargs, IClyCommandInfo, IClyCommandOpts } from 'cliyargs';
-import { CreateConfigCommand } from './commands/CreateConfigCommand';
-import { DeployCommand } from './commands/DeployCommand';
+import { BaseCmdOpts, cliyargs, CmdInfo } from 'cliyargs';
+import { InitCommand } from './InitCommand';
+import { DistCommand } from './DistCommand';
 import { spawn, SpawnOptionsWithoutStdio } from 'child_process';
+import { PackCommand } from './PackCommand';
 
-/* ================================================================================================================== */
-/* ================================================================================================================== */
 /* ================================================================================================================== */
 
 export const CONFIG_FILENAME = 'packlib-config.js';
 
-/* ================================================================================================================== */
-/* ================================================================================================================== */
+export const cmd_init = 'init';
+export const cmd_pack = 'pack';
+export const cmd_dist = 'dist';
+
 /* ================================================================================================================== */
 
 const argv = cliyargs.yargs
-  .command('config', `Generate ${CONFIG_FILENAME}`)
-  .command('deploy', 'Pack tarball and copy to destinations specified in packlib-config.js')
+  .command(cmd_init, `Generate ${CONFIG_FILENAME}`)
+  .command(cmd_pack, 'Pack the library module into a folder')
+  .command(cmd_dist, 'Distribute the module to destination projects specified in packlib-config.js')
+  .alias({
+    'ls': cmd_init
+  })
   .help().argv;
 
-const commandInfo: IClyCommandInfo<IClyCommandOpts> = cliyargs.parseYargv(argv);
+const commandInfo: CmdInfo<BaseCmdOpts> = cliyargs.getCommandInfo(argv);
 
-export interface IOptions extends IClyCommandOpts {}
+export interface IOptions extends BaseCmdOpts {
+}
 
 cliyargs.processCommand(commandInfo, async (commandName) => {
-  // Get the command arguments
-  const args = commandInfo.args;
-
-  // Get the command options (flags/switches)
-  const options = commandInfo.options;
-
   switch (commandName) {
-    case 'config':
-      await new CreateConfigCommand(commandInfo).run();
+    case cmd_init:
+      await new InitCommand(commandInfo).run();
       break;
-    case 'deploy':
-      await new DeployCommand(commandInfo).run();
+
+    case cmd_dist:
+      await new DistCommand(commandInfo).run();
       break;
+
+    case cmd_pack:
+    default:
+      await new PackCommand(commandInfo).run();
   }
 });
 
 /* ================================================================================================================== */
-/* ================================================================================================================== */
-/* ================================================================================================================== */
 
-export interface ShellExecOptions extends SpawnOptionsWithoutStdio {}
+export interface ShellExecOptions extends SpawnOptionsWithoutStdio {
+}
 
 export type TRunShellCommandResult = {
   childProcess: any;

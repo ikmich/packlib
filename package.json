@@ -1,29 +1,38 @@
 {
-  "name": "packlib",
+  "name": "@ikmich/packlib",
   "version": "1.0.0-alpha",
-  "description": "Pack and distribute npm library as tarball, for development",
-  "main": "dist/index.js",
+  "description": "Pack and distribute npm library for local development",
+  "main": "dist/bin/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist/ && tsc",
     "build:watch": "npm run build --watch",
     "prepublishOnly": "npm run build",
-    "depl": "./depl.sh",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install-global": "install_dev.sh"
   },
   "bin": {
-    "packlib": "dist/index.js"
+    "packlib": "dist/bin/index.js"
   },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
   "keywords": [
+    "pack",
     "library",
-    "development"
+    "development",
+    "tarball"
   ],
   "author": "Ikenna Agbasimalo <michfx@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^17.0.24",
-    "cliyargs": "^2.0.0",
+    "@types/npm-packlist": "^3.0.0",
+    "cliyargs": "^3.0.0",
     "fs-extra": "^10.0.1",
+    "npm-packlist": "^5.0.0",
     "prettier": "^2.6.2"
   },
   "maintainers": [

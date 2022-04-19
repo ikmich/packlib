@@ -1,7 +1,8 @@
-depl.sh
 node_modules
 .vscode
-.idea
-dist
-build
-coverage
+.idea/
+dist/
+build/
+coverage/
+dev/
+.DS_Store

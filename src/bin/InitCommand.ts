@@ -1,9 +1,9 @@
 import { ClyBaseCommand } from 'cliyargs';
 import FS from 'fs-extra';
 import Path from 'path';
-import { CONFIG_FILENAME } from '../index';
+import { CONFIG_FILENAME } from './index';
 
-export class CreateConfigCommand extends ClyBaseCommand<any> {
+export class InitCommand extends ClyBaseCommand<any> {
   async run(): Promise<void> {
     await super.run();
 

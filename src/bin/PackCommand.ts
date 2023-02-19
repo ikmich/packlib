@@ -1,9 +1,9 @@
-import { ClyBaseCommand } from 'cliyargs';
+import { BaseCmd } from 'cliyargs';
 import Path from 'path';
 import FS from 'fs-extra';
 import { runShellCmd } from './index';
 import { _fn, addToGitIgnore } from '../util';
-import { conprint } from 'cliyargs/lib/utils';
+import { conprint } from 'cliyargs/dist/utils';
 import npmPackList from 'npm-packlist';
 
 export interface PackResult {
@@ -12,7 +12,7 @@ export interface PackResult {
   packDirPath: string;
 }
 
-export class PackCommand extends ClyBaseCommand<any> {
+export class PackCommand extends BaseCmd<any> {
   async run() {
     await super.run();
     await this.pack();

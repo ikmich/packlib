@@ -1,10 +1,10 @@
-import { ClyBaseCommand } from 'cliyargs';
+import { BaseCmd } from 'cliyargs';
 import FS from 'fs-extra';
 import Path from 'path';
 import { CONFIG_FILENAME } from './index';
-import { addToGitIgnore, _fn } from '../util';
+import { _fn, addToGitIgnore } from '../util';
 
-export class InitCommand extends ClyBaseCommand<any> {
+export class InitCommand extends BaseCmd<any> {
   async run(): Promise<void> {
     await super.run();
 

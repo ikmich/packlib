@@ -1,13 +1,11 @@
 #!/usr/bin/env node
 
-import { cliyargs, IClyCommandInfo, IClyCommandOpts } from 'cliyargs';
-import { InitCommand } from './InitCommand';
-import { DistCommand } from './DistCommand';
-import { spawn, SpawnOptionsWithoutStdio } from 'child_process';
-import { PackCommand } from './PackCommand';
+import {BaseCmdOpts, cliyargs, CmdInfo} from 'cliyargs';
+import {InitCommand} from './InitCommand';
+import {DistCommand} from './DistCommand';
+import {spawn, SpawnOptionsWithoutStdio} from 'child_process';
+import {PackCommand} from './PackCommand';
 
-/* ================================================================================================================== */
-/* ================================================================================================================== */
 /* ================================================================================================================== */
 
 export const CONFIG_FILENAME = 'packlib-config.js';
@@ -17,18 +15,19 @@ export const cmd_pack = 'pack';
 export const cmd_dist = 'dist';
 
 /* ================================================================================================================== */
-/* ================================================================================================================== */
-/* ================================================================================================================== */
 
 const argv = cliyargs.yargs
   .command(cmd_init, `Generate ${CONFIG_FILENAME}`)
   .command(cmd_pack, 'Pack the library module into a folder')
   .command(cmd_dist, 'Distribute the module to destination projects specified in packlib-config.js')
+    .alias({
+      'ls': cmd_init
+    })
   .help().argv;
 
-const commandInfo: IClyCommandInfo<IClyCommandOpts> = cliyargs.parseYargv(argv);
+const commandInfo: CmdInfo<BaseCmdOpts> = cliyargs.getCommandInfo(argv);
 
-export interface IOptions extends IClyCommandOpts {}
+export interface IOptions extends BaseCmdOpts {}
 
 cliyargs.processCommand(commandInfo, async (commandName) => {
   switch (commandName) {
@@ -45,9 +44,6 @@ cliyargs.processCommand(commandInfo, async (commandName) => {
       await new PackCommand(commandInfo).run();
   }
 });
-
-/* ================================================================================================================== */
-/* ================================================================================================================== */
 
 /* ================================================================================================================== */
 

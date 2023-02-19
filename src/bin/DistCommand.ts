@@ -1,12 +1,12 @@
-import { ClyBaseCommand } from 'cliyargs';
+import { BaseCmd } from 'cliyargs';
 import FS from 'fs-extra';
 import Path from 'path';
 import { cmd_pack, CONFIG_FILENAME } from './index';
-import { conprint } from 'cliyargs/lib/utils';
 import { taskUnit } from '../util';
 import { PackCommand, PackResult } from './PackCommand';
+import {conprint} from "cliyargs/dist/utils";
 
-export class DistCommand extends ClyBaseCommand<any> {
+export class DistCommand extends BaseCmd<any> {
   async run(): Promise<void> {
     await super.run();
 

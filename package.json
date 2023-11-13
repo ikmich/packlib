@@ -1,6 +1,6 @@
 {
   "name": "@ikmich/packlib",
-  "version": "1.0.1-alpha",
+  "version": "1.0.3-alpha",
   "description": "Pack and distribute npm library for local development",
   "exports": "./dist/bin/index.js",
   "type": "module",
@@ -29,6 +29,7 @@
   "author": "Ikenna Agbasimalo <michfx@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@ikmich/utilis": "^1.0.1-alpha",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^17.0.24",
     "@types/npm-packlist": "^3.0.0",

@@ -6,6 +6,7 @@ import { taskUnit } from '../util/index.js';
 import { PackCommand, PackResult } from './PackCommand.js';
 import { conprint } from 'cliyargs/dist/utils/index.js';
 import { createRequire } from 'module';
+import { shell_ } from '@ikmich/utilis';
 
 const require = createRequire(import.meta.url);
 
@@ -50,10 +51,19 @@ export class DistCommand extends BaseCmd<any> {
 
       conprint.info(`-> destination: ${dest}`);
 
+      await taskUnit({
+        desc: `Uninstalling package ${packageName}`,
+        async fn() {
+          await shell_.exec(`npm uninstall ${packageName}`);
+        },
+        printDesc: true
+      });
+
+      const destNodeModulesDir = Path.join(dest, 'node_modules/');
       taskUnit({
-        desc: 'Copy parcel dir to dest node_modules/',
+        desc: `Copying parcel dir to destination - ${destNodeModulesDir}`,
         fn() {
-          const destNodeModulesDir = Path.join(dest, 'node_modules/');
+          // const destNodeModulesDir = Path.join(dest, 'node_modules/');
           FS.ensureDirSync(destNodeModulesDir);
 
           // <step: copy parcelDir to dest node_modules>
@@ -62,7 +72,8 @@ export class DistCommand extends BaseCmd<any> {
           FS.ensureDirSync(copyTo);
           FS.copySync(copyFrom, copyTo, { recursive: true, overwrite: true });
           // </step>
-        }
+        },
+        printDesc: true
       });
 
       taskUnit({

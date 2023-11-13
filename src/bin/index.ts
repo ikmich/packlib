@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
 import { BaseCmdOpts, cliyargs, CmdInfo } from 'cliyargs';
-import { InitCommand } from './InitCommand';
-import { DistCommand } from './DistCommand';
+import { InitCommand } from './InitCommand.js';
+import { DistCommand } from './DistCommand.js';
 import { spawn, SpawnOptionsWithoutStdio } from 'child_process';
-import { PackCommand } from './PackCommand';
+import { PackCommand } from './PackCommand.js';
 
 /* ================================================================================================================== */
 
-export const CONFIG_FILENAME = 'packlib-config.js';
+export const CONFIG_FILENAME = 'packlib-config.cjs';
 
 export const cmd_init = 'init';
 export const cmd_pack = 'pack';

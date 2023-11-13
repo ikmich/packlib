@@ -1,5 +1,5 @@
-import { conprint } from 'cliyargs/dist/utils';
-import * as FS from 'fs-extra';
+import { conprint } from 'cliyargs/dist/utils/index.js';
+import fs from 'fs-extra';
 
 export function _fn(fn: () => any) {
   return fn();
@@ -36,12 +36,12 @@ type Params_AddToGitignore = {
 
 export function addToGitIgnore(params: Params_AddToGitignore) {
   const { regex, gitignoreFile, entry } = params;
-  FS.ensureFileSync(gitignoreFile);
+  fs.ensureFileSync(gitignoreFile);
 
   const entryRegex = regex ?? new RegExp(`^(\n)?${entry}\\s*$`, 'm');
 
-  const destGitignoreContents = FS.readFileSync(gitignoreFile, { encoding: 'utf-8' })
+  const destGitignoreContents = fs.readFileSync(gitignoreFile, { encoding: 'utf-8' })
     .replace(entryRegex, '')
     .concat(`\n${entry}`);
-  FS.writeFileSync(gitignoreFile, destGitignoreContents, { encoding: 'utf-8' });
+  fs.writeFileSync(gitignoreFile, destGitignoreContents, { encoding: 'utf-8' });
 }

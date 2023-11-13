@@ -1,10 +1,13 @@
 import { BaseCmd } from 'cliyargs';
 import Path from 'path';
 import FS from 'fs-extra';
-import { runShellCmd } from './index';
-import { _fn, addToGitIgnore } from '../util';
-import { conprint } from 'cliyargs/dist/utils';
+import { runShellCmd } from './index.js';
+import { _fn, addToGitIgnore } from '../util/index.js';
+import { conprint } from 'cliyargs/dist/utils/index.js';
 import npmPackList from 'npm-packlist';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 export interface PackResult {
   pkgName: string;

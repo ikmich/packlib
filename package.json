@@ -1,13 +1,15 @@
 {
   "name": "@ikmich/packlib",
-  "version": "1.0.0-alpha",
+  "version": "1.0.1-alpha",
   "description": "Pack and distribute npm library for local development",
-  "main": "dist/bin/index.js",
+  "exports": "./dist/bin/index.js",
+  "type": "module",
   "scripts": {
     "build": "rm -rf dist/ && tsc",
     "build:watch": "npm run build --watch",
     "prepublishOnly": "npm run build",
-    "install-global": "install_dev.sh"
+    "install-dev": "./install_dev.sh",
+    "tscheck": "tsc --noEmit"
   },
   "bin": {
     "packlib": "dist/bin/index.js"

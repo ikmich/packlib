@@ -1,10 +1,13 @@
 import { BaseCmd } from 'cliyargs';
 import FS from 'fs-extra';
 import Path from 'path';
-import { cmd_pack, CONFIG_FILENAME } from './index';
-import { taskUnit } from '../util';
-import { PackCommand, PackResult } from './PackCommand';
-import {conprint} from "cliyargs/dist/utils";
+import { cmd_pack, CONFIG_FILENAME } from './index.js';
+import { taskUnit } from '../util/index.js';
+import { PackCommand, PackResult } from './PackCommand.js';
+import { conprint } from 'cliyargs/dist/utils/index.js';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 export class DistCommand extends BaseCmd<any> {
   async run(): Promise<void> {

@@ -35,3 +35,7 @@ Distribute the module to destination projects specified in packlib-config.js.
 ```shell
 packlib dist
 ```
+
+### `unlink-dist`
+
+Remove the module from the destination projects specified in packlib-config.js.

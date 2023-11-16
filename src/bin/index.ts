@@ -5,6 +5,7 @@ import { InitCommand } from './InitCommand.js';
 import { DistCommand } from './DistCommand.js';
 import { spawn, SpawnOptionsWithoutStdio } from 'child_process';
 import { PackCommand } from './PackCommand.js';
+import { UnlinkDistCommand } from './UnlinkDistCommand.js';
 
 /* ================================================================================================================== */
 
@@ -13,16 +14,18 @@ export const CONFIG_FILENAME = 'packlib-config.cjs';
 export const cmd_init = 'init';
 export const cmd_pack = 'pack';
 export const cmd_dist = 'dist';
+export const cmd_unlink_dist = 'unlink-dist';
 
 /* ================================================================================================================== */
 
 const argv = cliyargs.yargs
   .command(cmd_init, `Generate ${CONFIG_FILENAME}`)
   .command(cmd_pack, 'Pack the library module into a folder')
-  .command(cmd_dist, 'Distribute the module to destination projects specified in packlib-config.js')
-  .alias({
-    'ls': cmd_init
-  })
+  .command(cmd_dist, `Distribute the module to destination projects specified in ${CONFIG_FILENAME}`)
+  .command(cmd_unlink_dist, `Remove the module from the destination projects specified in ${CONFIG_FILENAME}`)
+  // .alias({
+  //   'ls': cmd_init
+  // })
   .help().argv;
 
 const commandInfo: CmdInfo<BaseCmdOpts> = cliyargs.getCommandInfo(argv);
@@ -38,6 +41,10 @@ cliyargs.processCommand(commandInfo, async (commandName) => {
 
     case cmd_dist:
       await new DistCommand(commandInfo).run();
+      break;
+
+    case cmd_unlink_dist:
+      await new UnlinkDistCommand(commandInfo).run();
       break;
 
     case cmd_pack:

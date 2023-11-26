@@ -1,17 +1,17 @@
-import { BaseCmd } from 'cliyargs';
 import fs from 'fs-extra';
 import Path from 'path';
-import { cmd_pack, CONFIG_FILENAME } from './index.js';
+import { CONFIG_FILENAME } from './index.js';
 import { taskUnit } from '../util/index.js';
 import { PackCommand, PackResult } from './PackCommand.js';
-import { conprint } from 'cliyargs/dist/utils/index.js';
 import { createRequire } from 'module';
 import { shell_ } from '@ikmich/utilis';
 import { PackageDomain } from 'package-deps-admin/dist/package-domain.js';
+import { BaseCommand } from './base.command.js';
+import { logError, logInfo } from '../util/log.util.js';
 
 const require = createRequire(import.meta.url);
 
-export class DistCommand extends BaseCmd<any> {
+export class DistCommand extends BaseCommand {
   async run(): Promise<void> {
     await super.run();
 
@@ -27,11 +27,13 @@ export class DistCommand extends BaseCmd<any> {
     const destinationList = config.destinations;
 
     // Pack the library
-    const packResult: PackResult = await new PackCommand({
-      name: cmd_pack,
-      args: [],
-      options: {}
-    }).pack();
+    // const packResult: PackResult = await new PackCommand({
+    //   name: cmd_pack,
+    //   args: [],
+    //   options: {}
+    // }).pack();
+
+    const packResult: PackResult = await PackCommand.pack();
 
     const parcelDir = packResult.packDirPath;
     const packageName = packResult.pkgName;
@@ -50,7 +52,7 @@ export class DistCommand extends BaseCmd<any> {
         return;
       }
 
-      conprint.info(`-> destination: ${dest}`);
+      logInfo(`-> destination: ${dest}`);
 
       /* Uninstall the existing dependency. */
       await taskUnit({
@@ -116,7 +118,11 @@ export class DistCommand extends BaseCmd<any> {
           const sourceDomain = new PackageDomain(packResult.pkgName, sourceRoot);
           const destPackageName = destPkgConfig['name'];
           const destDomain = new PackageDomain(destPackageName, dest);
-          await PackageDomain.transitDependencies(sourceDomain, destDomain);
+          try {
+            await PackageDomain.transitDependencies(sourceDomain, destDomain);
+          } catch (e) {
+            logError((e as Error).message);
+          }
         }
       });
     }

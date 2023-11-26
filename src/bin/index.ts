@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-import { BaseCmdOpts, cliyargs, CmdInfo } from 'cliyargs';
+import { spawn, SpawnOptionsWithoutStdio } from 'child_process';
 import { InitCommand } from './InitCommand.js';
 import { DistCommand } from './DistCommand.js';
-import { spawn, SpawnOptionsWithoutStdio } from 'child_process';
 import { PackCommand } from './PackCommand.js';
 import { UnlinkDistCommand } from './UnlinkDistCommand.js';
+import { Command } from 'commander';
 
 /* ================================================================================================================== */
 
@@ -18,40 +18,37 @@ export const cmd_unlink_dist = 'unlink-dist';
 
 /* ================================================================================================================== */
 
-const argv = cliyargs.yargs
-  .command(cmd_init, `Generate ${CONFIG_FILENAME}`)
-  .command(cmd_pack, 'Pack the library module into a folder')
-  .command(cmd_dist, `Distribute the module to destination projects specified in ${CONFIG_FILENAME}`)
-  .command(cmd_unlink_dist, `Remove the module from the destination projects specified in ${CONFIG_FILENAME}`)
-  // .alias({
-  //   'ls': cmd_init
-  // })
-  .help().argv;
+const program = new Command();
 
-const commandInfo: CmdInfo<BaseCmdOpts> = cliyargs.getCommandInfo(argv);
+program.description('Pack and distribute npm library for local development');
 
-export interface IOptions extends BaseCmdOpts {
-}
+program
+  .command(cmd_init)
+  .description(`Generate ${CONFIG_FILENAME}`)
+  .action(async () => {
+    await new InitCommand(program).run();
+  });
 
-cliyargs.processCommand(commandInfo, async (commandName) => {
-  switch (commandName) {
-    case cmd_init:
-      await new InitCommand(commandInfo).run();
-      break;
+program
+  .command(cmd_pack)
+  .description('Pack the library module into a folder')
+  .action(async () => {
+    await new PackCommand(program).run();
+  });
 
-    case cmd_dist:
-      await new DistCommand(commandInfo).run();
-      break;
+program
+  .command(cmd_dist)
+  .description(`Distribute the module to destination projects specified in ${CONFIG_FILENAME}`)
+  .action(async () => {
+    await new DistCommand(program).run();
+  });
 
-    case cmd_unlink_dist:
-      await new UnlinkDistCommand(commandInfo).run();
-      break;
-
-    case cmd_pack:
-    default:
-      await new PackCommand(commandInfo).run();
-  }
-});
+program
+  .command(cmd_unlink_dist)
+  .description(`Remove the module from the destination projects specified in ${CONFIG_FILENAME}`)
+  .action(async () => {
+    await new UnlinkDistCommand(program).run();
+  });
 
 /* ================================================================================================================== */
 

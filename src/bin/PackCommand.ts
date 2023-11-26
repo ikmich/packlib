@@ -1,11 +1,11 @@
-import { BaseCmd } from 'cliyargs';
 import Path from 'path';
 import FS from 'fs-extra';
 import { runShellCmd } from './index.js';
 import { _fn, addToGitIgnore } from '../util/index.js';
-import { conprint } from 'cliyargs/dist/utils/index.js';
 import npmPackList from 'npm-packlist';
 import { createRequire } from 'module';
+import { BaseCommand } from './base.command.js';
+import { logInfo } from '../util/log.util.js';
 
 const require = createRequire(import.meta.url);
 
@@ -15,13 +15,13 @@ export interface PackResult {
   packDirPath: string;
 }
 
-export class PackCommand extends BaseCmd<any> {
+export class PackCommand extends BaseCommand {
   async run() {
     await super.run();
-    await this.pack();
+    await PackCommand.pack();
   }
 
-  async pack(): Promise<PackResult> {
+  static async pack(): Promise<PackResult> {
     const sourceRoot = process.cwd();
 
     /* read package.json in source dir */
@@ -39,7 +39,7 @@ export class PackCommand extends BaseCmd<any> {
     await runShellCmd('npm run build').promise;
 
     // <step: package the lib parcel>
-    conprint.info('Packaging the module...');
+    logInfo('Packaging the module...');
 
     const parcelFiles = await npmPackList({
       path: sourceRoot

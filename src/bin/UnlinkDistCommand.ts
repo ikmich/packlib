@@ -1,4 +1,3 @@
-import { BaseCmd } from 'cliyargs';
 import Path from 'path';
 import { CONFIG_FILENAME } from './index.js';
 import fs from 'fs-extra';
@@ -6,10 +5,11 @@ import { PackageDomain } from 'package-deps-admin/dist/package-domain.js';
 import { createRequire } from 'module';
 import { taskUnit } from '../util/index.js';
 import { shell_ } from '@ikmich/utilis';
+import { BaseCommand } from './base.command.js';
 
 const require = createRequire(import.meta.url);
 
-export class UnlinkDistCommand extends BaseCmd<any> {
+export class UnlinkDistCommand extends BaseCommand {
   async run() {
     await super.run();
 

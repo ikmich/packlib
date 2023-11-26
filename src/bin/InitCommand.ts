@@ -1,10 +1,10 @@
-import { BaseCmd } from 'cliyargs';
 import FS from 'fs-extra';
 import Path from 'path';
 import { CONFIG_FILENAME } from './index.js';
 import { _fn, addToGitIgnore } from '../util/index.js';
+import { BaseCommand } from './base.command.js';
 
-export class InitCommand extends BaseCmd<any> {
+export class InitCommand extends BaseCommand {
   async run(): Promise<void> {
     await super.run();
 

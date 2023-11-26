@@ -1,5 +1,5 @@
-import { conprint } from 'cliyargs/dist/utils/index.js';
 import fs from 'fs-extra';
+import { logInfo, logNotice } from './log.util.js';
 
 export function _fn(fn: () => any) {
   return fn();
@@ -16,12 +16,12 @@ export function taskUnit<T>(task: TaskUnit<T>) {
   const { desc, fn, suppress = false, printDesc = false } = task;
 
   if (suppress) {
-    conprint.notice('<suppressed task>');
+    logNotice('<suppressed task>');
     return;
   }
 
   if (desc && printDesc) {
-    conprint.info(`${desc}`);
+    logInfo(`${desc}`);
   }
   return fn();
 }

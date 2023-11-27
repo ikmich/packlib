@@ -50,6 +50,8 @@ program
     await new UnlinkDistCommand(program).run();
   });
 
+program.parse();
+
 /* ================================================================================================================== */
 
 export interface ShellExecOptions extends SpawnOptionsWithoutStdio {

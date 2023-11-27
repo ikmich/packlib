@@ -1,6 +1,6 @@
 {
   "name": "@ikmich/packlib",
-  "version": "1.1.0-alpha",
+  "version": "1.1.1-alpha",
   "description": "Pack and distribute npm library for local development",
   "exports": "./dist/bin/index.js",
   "type": "module",

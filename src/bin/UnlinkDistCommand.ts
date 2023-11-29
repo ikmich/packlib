@@ -29,7 +29,7 @@ export class UnlinkDistCommand extends BaseCommand {
 
     const config = require(configFile);
 
-    const sourceDomain = new PackageDomain(packageName, sourceRoot);
+    const sourceDomain = new PackageDomain(sourceRoot);
 
     const destinationList: string[] = config.destinations;
     for (let dest of destinationList) {
@@ -50,7 +50,7 @@ export class UnlinkDistCommand extends BaseCommand {
 
       if (destPkgConfig) {
         const destPackageName = destPkgConfig['name'];
-        const destDomain = new PackageDomain(destPackageName, dest);
+        const destDomain = new PackageDomain(dest);
 
         await PackageDomain.removeTransitDependencies(sourceDomain, destDomain);
       }

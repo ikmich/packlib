@@ -1,6 +1,6 @@
 {
   "name": "@ikmich/packlib",
-  "version": "1.1.1-alpha",
+  "version": "1.1.3-alpha",
   "description": "Pack and distribute npm library for local development",
   "exports": "./dist/bin/index.js",
   "type": "module",
@@ -34,7 +34,7 @@
     "commander": "^11.1.0",
     "fs-extra": "^10.0.1",
     "npm-packlist": "^5.0.0",
-    "package-deps-admin": "^0.0.1-SNAPSHOT.0"
+    "package-deps-admin": "^0.0.1-SNAPSHOT.4"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",

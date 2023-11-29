@@ -115,9 +115,9 @@ export class DistCommand extends BaseCommand {
         desc: 'Install dependencies of source module in dest module',
         async fn() {
           // install dependencies of this library.
-          const sourceDomain = new PackageDomain(packResult.pkgName, sourceRoot);
+          const sourceDomain = new PackageDomain(sourceRoot);
           const destPackageName = destPkgConfig['name'];
-          const destDomain = new PackageDomain(destPackageName, dest);
+          const destDomain = new PackageDomain(dest);
           try {
             await PackageDomain.transitDependencies(sourceDomain, destDomain);
           } catch (e) {
